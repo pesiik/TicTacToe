@@ -52,6 +52,7 @@ private fun TicTacToeGrid(state: TicTacToeState, onCellTap: (row: Int, col: Int)
                                 onCellTap(row, col)
                             },
                         cellView = state.rows[row][col],
+                        isWinnerCell = state.rows[row][col].isWinner
                     )
                 }
             }

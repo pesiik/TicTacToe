@@ -13,6 +13,7 @@ data class TicTacToeState(
     data class CellView(
         val cell: Cell,
         val col: Int,
+        val isWinner: Boolean = false,
     )
 }
 

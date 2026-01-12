@@ -9,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.CacheDrawScope
 import androidx.compose.ui.draw.DrawResult
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
@@ -21,6 +22,7 @@ import mc.pesiik.tictactoe.view.TicTacToeState
 fun TicTacToeCell(
     modifier: Modifier = Modifier,
     cellView: TicTacToeState.CellView,
+    isWinnerCell: Boolean,
 ) {
     val progress by animateFloatAsState(
         targetValue = if (cellView.cell != Cell.NONE) 1f else 0f,
@@ -29,6 +31,17 @@ fun TicTacToeCell(
     )
     Box(
         modifier = modifier
+            .drawBehind {
+                if (isWinnerCell) {
+                    val brush = Brush.linearGradient(
+                        colors = listOf(Color.Red, Color.Yellow)
+                    )
+                    drawRect(
+                        brush = brush,
+                        alpha = 0.3f,
+                    )
+                }
+            }
             .padding(8.dp)
             .drawWithCache {
                 when (cellView.cell) {
