@@ -15,10 +15,11 @@ class GridInteractorImpl @Inject constructor(
     override fun cross(row: Int, col: Int): Grid {
         val cells = gridRepository.getGrid().cells
         val updatedCells = update(cells, row, col, isCross = true)
+        val player = if (isCellNotEmpty(cells, row, col)) Player.CROSS else Player.ZERO
         val status = checkForWinner(updatedCells, Player.CROSS)
         return gridRepository.updateGrid(
             cells = updatedCells,
-            player = Player.ZERO,
+            player = player,
             status = status,
         )
     }
@@ -26,10 +27,11 @@ class GridInteractorImpl @Inject constructor(
     override fun zero(row: Int, col: Int): Grid {
         val cells = gridRepository.getGrid().cells
         val updatedCells = update(cells, row, col, isCross = false)
+        val player = if (isCellNotEmpty(cells, row, col)) Player.ZERO else Player.CROSS
         val status = checkForWinner(updatedCells, Player.ZERO)
         return gridRepository.updateGrid(
             cells = updatedCells,
-            player = Player.CROSS,
+            player = player,
             status = status,
         )
     }
@@ -46,6 +48,9 @@ class GridInteractorImpl @Inject constructor(
     }
 
     private fun update(cells: List<List<Cell>>, row: Int, col: Int, isCross: Boolean): List<List<Cell>> {
+        if (isCellNotEmpty(cells, row, col)) {
+            return cells
+        }
         return cells.mapIndexed { rIndex, rowList ->
             rowList.mapIndexed { cIndex, cell ->
                 if (rIndex == row && cIndex == col) {
@@ -55,6 +60,10 @@ class GridInteractorImpl @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun isCellNotEmpty(cells: List<List<Cell>>, row: Int, col: Int): Boolean {
+        return cells[row][col] != Cell.NONE
     }
 
     private fun checkForWinner(cells: List<List<Cell>>, player: Player): Status {

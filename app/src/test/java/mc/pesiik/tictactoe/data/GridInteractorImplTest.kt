@@ -351,4 +351,66 @@ class GridInteractorImplTest {
         val actual = interactor.cross(row = 2, col = 2)
         Assert.assertEquals(expected, actual)
     }
+
+    @Test
+    fun `GIVEN cell already occupied WHEN cross THEN grid remains unchanged`() {
+        val grid = Grid(
+            cells = listOf(
+                listOf(
+                    Cell.CROSS, Cell.NONE, Cell.NONE
+                ),
+                listOf(
+                    Cell.NONE, Cell.ZERO, Cell.NONE
+                ),
+                listOf(
+                    Cell.NONE, Cell.NONE, Cell.NONE
+                )
+            ),
+            currentPlayer = Player.CROSS,
+            status = Status.Active,
+        )
+        val expected: Grid = mockk()
+        every { gridRepository.getGrid() } returns grid
+        every {
+            gridRepository.updateGrid(
+                cells = grid.cells,
+                player = Player.CROSS,
+                status = Status.Active
+            )
+        } returns expected
+
+        val actual = interactor.cross(row = 1, col = 1)
+        Assert.assertEquals(expected, actual)
+    }
+
+    @Test
+    fun `GIVEN cell already occupied WHEN zero THEN grid remains unchanged`() {
+        val grid = Grid(
+            cells = listOf(
+                listOf(
+                    Cell.CROSS, Cell.NONE, Cell.NONE
+                ),
+                listOf(
+                    Cell.NONE, Cell.ZERO, Cell.NONE
+                ),
+                listOf(
+                    Cell.NONE, Cell.NONE, Cell.NONE
+                )
+            ),
+            currentPlayer = Player.ZERO,
+            status = Status.Active,
+        )
+        val expected: Grid = mockk()
+        every { gridRepository.getGrid() } returns grid
+        every {
+            gridRepository.updateGrid(
+                cells = grid.cells,
+                player = Player.ZERO,
+                status = Status.Active
+            )
+        } returns expected
+
+        val actual = interactor.zero(row = 0, col = 0)
+        Assert.assertEquals(expected, actual)
+    }
 }
