@@ -58,6 +58,10 @@ class GridInteractorImpl @Inject constructor(
     }
 
     private fun checkForWinner(cells: List<List<Cell>>, player: Player): Status {
+        val isDraw = checkForDraw(cells)
+        if (isDraw) {
+            return Status.Draw
+        }
         // Check rows and columns
         for (i in 0..2) {
             if ((cells[i][0] != Cell.NONE && cells[i][0] == cells[i][1] && cells[i][1] == cells[i][2]) ||
@@ -73,5 +77,9 @@ class GridInteractorImpl @Inject constructor(
             return Status.Winner(player)
         }
         return Status.Active
+    }
+
+    private fun checkForDraw(cells: List<List<Cell>>): Boolean {
+        return cells.all { row -> row.all { cell -> cell != Cell.NONE } }
     }
 }

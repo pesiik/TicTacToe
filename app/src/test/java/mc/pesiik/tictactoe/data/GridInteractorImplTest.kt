@@ -326,4 +326,29 @@ class GridInteractorImplTest {
         val actual = interactor.reset()
         Assert.assertEquals(expected, actual)
     }
+
+    @Test
+    fun `GIVEN draw situation WHEN cross THEN get draw status`() {
+        val grid = Grid(
+            cells = listOf(
+                listOf(Cell.CROSS, Cell.ZERO, Cell.CROSS),
+                listOf(Cell.CROSS, Cell.ZERO, Cell.ZERO),
+                listOf(Cell.ZERO, Cell.CROSS, Cell.NONE)
+            ),
+            currentPlayer = Player.CROSS,
+            status = Status.Active,
+        )
+        val updatedCells = listOf(
+            listOf(Cell.CROSS, Cell.ZERO, Cell.CROSS),
+            listOf(Cell.CROSS, Cell.ZERO, Cell.ZERO),
+            listOf(Cell.ZERO, Cell.CROSS, Cell.CROSS)
+        )
+        val expected: Grid = mockk()
+        val status = Status.Draw
+        every { gridRepository.getGrid() } returns grid
+        every { gridRepository.updateGrid(cells = updatedCells, player = Player.ZERO, status = status) } returns expected
+
+        val actual = interactor.cross(row = 2, col = 2)
+        Assert.assertEquals(expected, actual)
+    }
 }
