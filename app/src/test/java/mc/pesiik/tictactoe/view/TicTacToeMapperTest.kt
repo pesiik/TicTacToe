@@ -23,16 +23,22 @@ class TicTacToeMapperTest {
             status = Status.Draw
         )
         val expectedState = TicTacToeState(
-            cells = listOf(
-                TicTacToeState.CellView(Cell.NONE, 0, 0),
-                TicTacToeState.CellView(Cell.CROSS, 0, 1),
-                TicTacToeState.CellView(Cell.ZERO, 0, 2),
-                TicTacToeState.CellView(Cell.ZERO, 1, 0),
-                TicTacToeState.CellView(Cell.CROSS, 1, 1),
-                TicTacToeState.CellView(Cell.NONE, 1, 2),
-                TicTacToeState.CellView(Cell.CROSS, 2, 0),
-                TicTacToeState.CellView(Cell.NONE, 2, 1),
-                TicTacToeState.CellView(Cell.ZERO, 2, 2)
+            rows = listOf(
+                listOf(
+                    TicTacToeState.CellView(Cell.NONE, col = 0),
+                    TicTacToeState.CellView(Cell.CROSS, col = 1),
+                    TicTacToeState.CellView(Cell.ZERO, col = 2)
+                ),
+                listOf(
+                    TicTacToeState.CellView(Cell.ZERO, col = 0),
+                    TicTacToeState.CellView(Cell.CROSS, col = 1),
+                    TicTacToeState.CellView(Cell.NONE, col = 2)
+                ),
+                listOf(
+                    TicTacToeState.CellView(Cell.CROSS, col = 0),
+                    TicTacToeState.CellView(Cell.NONE, col = 1),
+                    TicTacToeState.CellView(Cell.ZERO, col = 2)
+                )
             ),
             currentPlayer = Player.CROSS
         )

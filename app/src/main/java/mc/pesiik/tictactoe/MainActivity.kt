@@ -20,11 +20,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             TicTacToeTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    TicTacToeScreen(
-                        paddingValues = innerPadding,
-                    )
-                }
+                TicTacToeScreen()
             }
         }
     }

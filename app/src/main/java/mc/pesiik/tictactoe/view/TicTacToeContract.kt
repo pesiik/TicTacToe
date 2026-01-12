@@ -4,13 +4,12 @@ import mc.pesiik.tictactoe.domain.Cell
 import mc.pesiik.tictactoe.domain.Player
 
 data class TicTacToeState(
-    val cells: List<CellView> = emptyList(),
+    val rows: List<List<CellView>> = emptyList(),
     val currentPlayer: Player = Player.CROSS,
 ) {
 
     data class CellView(
         val cell: Cell,
-        val row: Int,
         val col: Int,
     )
 }

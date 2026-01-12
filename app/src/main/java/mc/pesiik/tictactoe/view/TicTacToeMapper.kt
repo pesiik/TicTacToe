@@ -8,20 +8,21 @@ class TicTacToeMapper @Inject constructor() {
 
     fun mapToState(grid: Grid): TicTacToeState {
         return TicTacToeState(
-            cells = cellsToView(grid.cells),
+            rows = cellsToView(grid.cells),
             currentPlayer = grid.currentPlayer
         )
     }
 
-    private fun cellsToView(cells: List<List<Cell>>): List<TicTacToeState.CellView> {
-        return cells.flatMapIndexed { rowIndex, row ->
-            row.mapIndexed { colIndex, cell ->
-                TicTacToeState.CellView(
-                    cell = cell,
-                    row = rowIndex,
-                    col = colIndex
-                )
-            }
+    private fun cellsToView(cells: List<List<Cell>>): List<List<TicTacToeState.CellView>> {
+        return cells.flatMap { row ->
+            listOf(
+                row.mapIndexed { colIndex, cell ->
+                    TicTacToeState.CellView(
+                        cell = cell,
+                        col = colIndex
+                    )
+                }
+            )
         }
     }
 }
