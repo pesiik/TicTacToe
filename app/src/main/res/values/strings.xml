@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">TicTacToe</string>
+    <string name="tic_tac_toe_screen_title">You go first!</string>
+    <string name="tic_tac_toe_screen_reset_button">Reset Game</string>
+    <string name="tic_tac_toe_screen_play_again">Play Again</string>
+    <string name="tic_tac_toe_screen_player_x_wins">Player X Wins!</string>
+    <string name="tic_tac_toe_screen_player_o_wins">Player O Wins!</string>
+    <string name="tic_tac_toe_screen_draw">It\'s a Draw!</string>
 </resources>

@@ -9,7 +9,8 @@ class TicTacToeMapper @Inject constructor() {
     fun mapToState(grid: Grid): TicTacToeState {
         return TicTacToeState(
             rows = cellsToView(grid.cells),
-            currentPlayer = grid.currentPlayer
+            currentPlayer = grid.currentPlayer,
+            status = grid.status,
         )
     }
 

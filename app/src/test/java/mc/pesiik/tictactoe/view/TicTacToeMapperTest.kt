@@ -40,7 +40,8 @@ class TicTacToeMapperTest {
                     TicTacToeState.CellView(Cell.ZERO, col = 2)
                 )
             ),
-            currentPlayer = Player.CROSS
+            currentPlayer = Player.CROSS,
+            status = Status.Draw,
         )
         val actualState = mapper.mapToState(grid)
         Assert.assertEquals(expectedState, actualState)

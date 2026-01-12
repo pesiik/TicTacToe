@@ -10,6 +10,7 @@ import androidx.compose.ui.draw.CacheDrawScope
 import androidx.compose.ui.draw.DrawResult
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import mc.pesiik.tictactoe.domain.Cell
@@ -36,14 +37,17 @@ fun TicTacToeCell(
 private fun CacheDrawScope.drawCross(): DrawResult {
     return onDrawBehind {
         val strokeWidth = size.width * 0.1f
+        val brush = Brush.linearGradient(
+            colors = listOf(Color.Yellow, Color.Blue)
+        )
         drawLine(
-            color = Color.Red,
+            brush = brush,
             strokeWidth = strokeWidth,
             start = Offset(0f + strokeWidth / 2, 0f + strokeWidth / 2),
             end = Offset(size.width - strokeWidth / 2, size.height - strokeWidth / 2)
         )
         drawLine(
-            color = Color.Red,
+            brush = brush,
             strokeWidth = strokeWidth,
             start = Offset(size.width - strokeWidth / 2, 0f + strokeWidth / 2),
             end = Offset(0f + strokeWidth / 2, size.height - strokeWidth / 2)
@@ -54,8 +58,11 @@ private fun CacheDrawScope.drawCross(): DrawResult {
 private fun CacheDrawScope.drawZero(): DrawResult {
     return onDrawBehind {
         val strokeWidth = size.width * 0.1f
+        val brush = Brush.linearGradient(
+            colors = listOf(Color.Cyan, Color.Magenta)
+        )
         drawCircle(
-            color = Color.Blue,
+            brush = brush,
             radius = (size.minDimension - strokeWidth) / 2,
             style = androidx.compose.ui.graphics.drawscope.Stroke(width = strokeWidth)
         )

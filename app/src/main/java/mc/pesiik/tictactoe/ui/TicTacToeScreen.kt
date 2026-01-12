@@ -1,26 +1,31 @@
 package mc.pesiik.tictactoe.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import mc.pesiik.tictactoe.ui.components.TicTacToeCell
+import mc.pesiik.tictactoe.R
+import mc.pesiik.tictactoe.domain.Status
+import mc.pesiik.tictactoe.ui.components.TicTacToeDialog
+import mc.pesiik.tictactoe.ui.components.TicTacToeGridBox
 import mc.pesiik.tictactoe.view.TicTacToeScreenEvent
-import mc.pesiik.tictactoe.view.TicTacToeState
 import mc.pesiik.tictactoe.view.TicTacToeViewModel
 
 @Composable
@@ -32,76 +37,66 @@ fun TicTacToeScreen(
         LaunchedEffect(TicTacToeScreenEvent.Reset) {
             viewModel.onEvent(TicTacToeScreenEvent.Reset)
         }
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .drawBehind {
-                    drawGridBorder(times = state.value.rows.size)
+        if (state.value.status != Status.Active) {
+            TicTacToeDialog(
+                status = state.value.status,
+                onReset = {
+                    viewModel.onEvent(TicTacToeScreenEvent.Reset)
                 }
+            )
+        }
+        Column(
+            modifier = Modifier.padding(innerPadding),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            TicTacToeGrid(state = state.value) { row, col ->
+            Title()
+            TicTacToeGridBox(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(16.dp),
+                state = state.value
+            ) { row, col ->
                 viewModel.onEvent(TicTacToeScreenEvent.CellTap(row, col))
+            }
+            ResetButton {
+                viewModel.onEvent(TicTacToeScreenEvent.Reset)
             }
         }
     }
 }
 
 @Composable
-private fun TicTacToeGrid(state: TicTacToeState, onCellTap: (row: Int, col: Int) -> Unit) {
-    val times = state.rows.size
-    Column(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        repeat(times) { row ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            ) {
-                repeat(times) { col ->
-                    TicTacToeCell(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .weight(1f)
-                            .clickable {
-                                onCellTap(row, col)
-                            },
-                        cellView = state.rows[row][col],
-                    )
-                }
-            }
-        }
-    }
+private fun Title(modifier: Modifier = Modifier) {
+    Text(
+        modifier = modifier.padding(vertical = 32.dp),
+        text = stringResource(R.string.tic_tac_toe_screen_title),
+        style = MaterialTheme.typography.titleLarge
+    )
 }
 
-private fun DrawScope.drawGridBorder(times: Int) {
-    repeat(times) { index ->
-        if (index != 0) {
-            val width = size.width / times * index
-            val height = size.height / times * index
-            drawLine(
-                color = Color.Green,
-                start = Offset(
-                    x = width,
-                    y = 0f
-                ),
-                end = Offset(
-                    x = width,
-                    y = size.height
+@Composable
+private fun ResetButton(modifier: Modifier = Modifier, onReset: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 32.dp)
+            .background(
+                brush = Brush.horizontalGradient(
+                    colors = listOf(
+                        Color.Cyan,
+                        Color.Magenta,
+                    )
                 )
             )
-            drawLine(
-                color = Color.Green,
-                start = Offset(
-                    x = 0f,
-                    y = height
-                ),
-                end = Offset(
-                    x = size.width,
-                    y = height
-                )
-            )
-        }
+            .clickable { onReset() },
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            modifier = modifier
+                .wrapContentSize()
+                .padding(vertical = 16.dp),
+            text = stringResource(R.string.tic_tac_toe_screen_reset_button),
+            style = MaterialTheme.typography.bodyLarge,
+        )
     }
 }
