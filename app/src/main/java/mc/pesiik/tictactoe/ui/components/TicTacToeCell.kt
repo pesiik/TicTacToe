@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import mc.pesiik.tictactoe.domain.Cell
 import mc.pesiik.tictactoe.view.TicTacToeState
+import kotlin.times
 
 @Composable
 fun TicTacToeCell(
@@ -55,7 +56,9 @@ fun TicTacToeCell(
 
 private fun CacheDrawScope.drawCross(progress: Float): DrawResult {
     return onDrawBehind {
-        val strokeWidth = size.width * 0.05f
+        val cellSize = size.minDimension
+        val strokeWidth = cellSize * 0.05f
+
         val brush = Brush.linearGradient(
             colors = listOf(Color.Yellow, Color.Blue)
         )
@@ -90,13 +93,14 @@ private fun CacheDrawScope.drawCross(progress: Float): DrawResult {
 
 private fun CacheDrawScope.drawZero(progress: Float): DrawResult {
     return onDrawBehind {
-        val strokeWidth = size.width * 0.05f
+        val cellSize = size.minDimension
+        val strokeWidth = cellSize * 0.05f
         val brush = Brush.linearGradient(
             colors = listOf(Color.Cyan, Color.Magenta)
         )
         drawCircle(
             brush = brush,
-            radius = ((size.minDimension - strokeWidth) / 2) * progress,
+            radius = ((cellSize - strokeWidth) / 2) * progress,
             style = androidx.compose.ui.graphics.drawscope.Stroke(width = strokeWidth)
         )
     }
