@@ -34,9 +34,6 @@ fun TicTacToeScreen(
 ) {
     val state = viewModel.state.collectAsState()
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-        LaunchedEffect(TicTacToeScreenEvent.Reset) {
-            viewModel.onEvent(TicTacToeScreenEvent.Reset)
-        }
         if (state.value.status != Status.Active) {
             TicTacToeDialog(
                 status = state.value.status,

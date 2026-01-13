@@ -5,6 +5,7 @@ import io.mockk.mockk
 import mc.pesiik.tictactoe.domain.Grid
 import mc.pesiik.tictactoe.domain.Player
 import mc.pesiik.tictactoe.interactor.GridInteractor
+import mc.pesiik.tictactoe.ui.TicTacToeScreen
 import org.junit.Assert
 import org.junit.Test
 
@@ -16,11 +17,15 @@ class TicTacToeViewModelTest {
 
     @Test
     fun `WHEN init view model THEN state is correct`() {
+        val resetGrid: Grid = mockk()
+        val expected : TicTacToeState = mockk()
+        every { gridInteractor.reset() } returns resetGrid
+        every { ticTacToeMapper.mapToState(resetGrid) } returns expected
+
         viewModel = TicTacToeViewModel(
             gridInteractor = gridInteractor,
             ticTacToeMapper = ticTacToeMapper
         )
-        val expected = TicTacToeState()
         Assert.assertEquals(expected, viewModel.state.value)
     }
 
@@ -50,8 +55,11 @@ class TicTacToeViewModelTest {
             currentPlayer = Player.CROSS,
         )
 
+        val resetGrid: Grid = mockk()
+        every { gridInteractor.reset() } returns resetGrid
         every { gridInteractor.cross(row = 0, col = 0) } returns updatedAfterCrossGrid
         every { gridInteractor.zero(row = 0, col = 1) } returns updatedAfterZeroGrid
+        every { ticTacToeMapper.mapToState(resetGrid) } returns TicTacToeState()
         every { ticTacToeMapper.mapToState(updatedAfterCrossGrid) } returns afterCrossState
         every { ticTacToeMapper.mapToState(updatedAfterZeroGrid) } returns afterZeroState
 

@@ -18,6 +18,10 @@ class TicTacToeViewModel @Inject constructor(
     private val _state = MutableStateFlow(TicTacToeState())
     val state: StateFlow<TicTacToeState> = _state.asStateFlow()
 
+    init {
+        reset()
+    }
+
     // All in the main thread. The calculations are simple and quick.
     fun onEvent(event: TicTacToeScreenEvent) {
         when (event) {

@@ -55,7 +55,7 @@ fun TicTacToeCell(
 
 private fun CacheDrawScope.drawCross(progress: Float): DrawResult {
     return onDrawBehind {
-        val strokeWidth = size.width * 0.1f
+        val strokeWidth = size.width * 0.05f
         val brush = Brush.linearGradient(
             colors = listOf(Color.Yellow, Color.Blue)
         )
@@ -90,7 +90,7 @@ private fun CacheDrawScope.drawCross(progress: Float): DrawResult {
 
 private fun CacheDrawScope.drawZero(progress: Float): DrawResult {
     return onDrawBehind {
-        val strokeWidth = size.width * 0.1f
+        val strokeWidth = size.width * 0.05f
         val brush = Brush.linearGradient(
             colors = listOf(Color.Cyan, Color.Magenta)
         )
